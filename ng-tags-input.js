@@ -21,7 +21,8 @@ var KEYS = {
     left: 37,
     right: 39,
     delete: 46,
-    comma: 188
+    comma: 188,
+    semicolon: 186
 };
 
 var MAX_SAFE_INTEGER = 9007199254740991;
@@ -53,6 +54,7 @@ var tagsInput = angular.module('ngTagsInput', []);
  * @param {boolean=} [addOnEnter=true] Flag indicating that a new tag will be added on pressing the ENTER key.
  * @param {boolean=} [addOnSpace=false] Flag indicating that a new tag will be added on pressing the SPACE key.
  * @param {boolean=} [addOnComma=true] Flag indicating that a new tag will be added on pressing the COMMA key.
+ * @param {boolean=} [addOnSemicolon=true] Flag indicating that a new tag will be added on pressing the SEMICOLON key. 
  * @param {boolean=} [addOnBlur=true] Flag indicating that a new tag will be added when the input field loses focus.
  * @param {boolean=} [addOnPaste=false] Flag indicating that the text pasted into the input field will be split into tags.
  * @param {string=} [pasteSplitPattern=,] Regular expression used to split the pasted text into tags.
@@ -200,6 +202,7 @@ tagsInput.directive('tagsInput', ["$timeout","$document","$window","tagsInputCon
                 addOnEnter: [Boolean, true],
                 addOnSpace: [Boolean, false],
                 addOnComma: [Boolean, true],
+		addOnSemicolon: [Boolean, true],
                 addOnBlur: [Boolean, true],
                 addOnPaste: [Boolean, false],
                 pasteSplitPattern: [RegExp, /,/],
@@ -259,7 +262,7 @@ tagsInput.directive('tagsInput', ["$timeout","$document","$window","tagsInputCon
             };
         }],
         link: function(scope, element, attrs, ngModelCtrl) {
-            var hotkeys = [KEYS.enter, KEYS.comma, KEYS.space, KEYS.backspace, KEYS.delete, KEYS.left, KEYS.right],
+            var hotkeys = [KEYS.enter, KEYS.comma, KEYS.semicolon, KEYS.space, KEYS.backspace, KEYS.delete, KEYS.left, KEYS.right],
                 tagList = scope.tagList,
                 events = scope.events,
                 options = scope.options,
@@ -396,6 +399,7 @@ tagsInput.directive('tagsInput', ["$timeout","$document","$window","tagsInputCon
 
                     addKeys[KEYS.enter] = options.addOnEnter;
                     addKeys[KEYS.comma] = options.addOnComma;
+		    addKeys[KEYS.semicolon] = options.addOnSemicolon;
                     addKeys[KEYS.space] = options.addOnSpace;
 
                     shouldAdd = !options.addFromAutocompleteOnly && addKeys[key];
